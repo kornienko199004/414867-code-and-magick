@@ -1,21 +1,36 @@
 'use strict';
 
-var worstTime = function (timesArray) {
-  var max = -1;
-  var maxIndex = -1;
-  var lastPlayerData = [];
-  for (var i = 0; i < timesArray.length; i++) {
-    var time = timesArray[i];
-    if (time > max) {
-      max = Math.floor(time);
-      maxIndex = i;
-    }
-  }
-  lastPlayerData.push(max);
-  lastPlayerData.push(maxIndex);
-  return lastPlayerData;
-};
 window.renderStatistics = function (ctx, names, times) {
+  var returnWorstTime = function (timesArray) {
+    var max = -1;
+    var maxIndex = -1;
+    var lastPlayerData = [];
+    for (var i = 0; i < timesArray.length; i++) {
+      var time = timesArray[i];
+      if (time > max) {
+        max = Math.floor(time);
+        maxIndex = i;
+      }
+    }
+    lastPlayerData.push(max);
+    lastPlayerData.push(maxIndex);
+    return lastPlayerData;
+  };
+
+  var HISTOGRAMA_WIDTH = 150;
+  var HISTOGRAMA_BAR_WIDTH = 40;
+  var HISTOGRAMA_INDENT = 50 + HISTOGRAMA_BAR_WIDTH;
+  var HISTOGRAMA_INITIAL_X = 120;
+  var HISTOGRAMA_INITIAL_Y = 95;
+
+  var timeFloor;
+  var currentY;
+  var opacity;
+  var lastPlayerData = returnWorstTime(times);
+  var lastPlayerTime = lastPlayerData[0];
+  var lastPlayerName = names[lastPlayerData[1]];
+  var step = HISTOGRAMA_WIDTH / (lastPlayerTime - 0);
+
   ctx.beginPath();
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.moveTo(330, 10);
@@ -45,29 +60,22 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.font = '14px PT Mono';
   ctx.fillText('Ура вы победили!\nСписок результатов:', 120, 40);
 
-  var lastPlayerData = worstTime(times);
-  var histogramWidth = 150;
-  var step = histogramWidth / (lastPlayerData[0] - 0);
-  ctx.fillText('Худшее время: ' + lastPlayerData[0] + 'мс у игрока ' + names[lastPlayerData[1]], 120, 60);
-
-  var barWidth = 40; // px
-  var indent = 50 + barWidth; // px
-  var initialX = 120; // px
-  var initialY = 95; // px
-  var timeFloor;
+  ctx.fillText('Худшее время: ' + lastPlayerTime + 'мс у игрока ' + lastPlayerName, 120, 60);
 
   for (var i = 0; i < times.length; i++) {
     timeFloor = Math.floor(times[i]);
-    var currentY = histogramWidth - timeFloor * step;
-    ctx.fillText(timeFloor, initialX + indent * i, initialY - barWidth / 4);
+    currentY = HISTOGRAMA_WIDTH - timeFloor * step;
+    ctx.fillText(timeFloor, HISTOGRAMA_INITIAL_X + HISTOGRAMA_INDENT * i, HISTOGRAMA_INITIAL_Y - HISTOGRAMA_BAR_WIDTH / 4);
     if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
-      var opacity = Math.ceil(Math.random() * 10) / 10;
+      opacity = Math.ceil(Math.random() * 10) / 10;
       ctx.fillStyle = 'rgba(0, 0, 255,' + opacity + ')';
     }
-    ctx.fillRect(initialX + indent * i, initialY + currentY, barWidth, times[i] * step);
+    ctx.fillRect(HISTOGRAMA_INITIAL_X + HISTOGRAMA_INDENT * i, HISTOGRAMA_INITIAL_Y + currentY, HISTOGRAMA_BAR_WIDTH, times[i] * step);
     ctx.fillStyle = '#000';
-    ctx.fillText(names[i], initialX + indent * i, initialY + histogramWidth + barWidth / 3);
+    ctx.fillText(names[i], HISTOGRAMA_INITIAL_X + HISTOGRAMA_INDENT * i, HISTOGRAMA_INITIAL_Y + HISTOGRAMA_WIDTH + HISTOGRAMA_BAR_WIDTH / 3);
   }
+
+  ctx.closePath();
 };
