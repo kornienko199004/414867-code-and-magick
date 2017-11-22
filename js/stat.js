@@ -39,7 +39,7 @@ window.renderStatistics = function (ctx, names, times) {
     canvasContext.fillText(name, HISTOGRAM_INITIAL_X + HISTOGRAM_INDENT * i, HISTOGRAM_INITIAL_Y + HISTOGRAM_WIDTH + HISTOGRAM_BAR_WIDTH / 3);
   };
 
-  var drawCloud = function (canvasContext, startX, startY, width, height, color) {
+  var drawRect = function (canvasContext, startX, startY, width, height, color) {
     canvasContext.fillStyle = color;
     canvasContext.fillRect(startX, startY, width, height);
   };
@@ -56,8 +56,8 @@ window.renderStatistics = function (ctx, names, times) {
   var lastPlayerName = names[lastPlayerData[1]];
   var step = HISTOGRAM_WIDTH / (lastPlayerTime - 0);
 
-  drawCloud(ctx, 110, 20, 420, 270, 'rgba(0, 0, 0, 0.7)');
-  drawCloud(ctx, 100, 10, 420, 270, 'white');
+  drawRect(ctx, 110, 20, 420, 270, 'rgba(0, 0, 0, 0.7)');
+  drawRect(ctx, 100, 10, 420, 270, 'white');
   drawText(ctx, 'Ура вы победили!\nСписок результатов:', 120, 40);
   drawText(ctx, 'Худшее время: ' + lastPlayerTime + 'мс у игрока ' + lastPlayerName, 120, 60);
 
