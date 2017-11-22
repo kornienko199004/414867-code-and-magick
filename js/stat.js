@@ -25,18 +25,15 @@ window.renderStatistics = function (ctx, names, times) {
 
   var drawHistogram = function (canvasContext, i, time, oneStep, name) {
     var currentY = HISTOGRAM_WIDTH - time * oneStep;
-    var opacity;
     var timeFloor = Math.floor(time);
-    canvasContext.fillText(timeFloor, HISTOGRAM_INITIAL_X + HISTOGRAM_INDENT * i, HISTOGRAM_INITIAL_Y - HISTOGRAM_BAR_WIDTH / 4);
-    if (name === 'Вы') {
-      canvasContext.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      opacity = Math.ceil(Math.random() * 10) / 10;
-      canvasContext.fillStyle = 'rgba(0, 0, 255,' + opacity + ')';
-    }
+
+    drawText(canvasContext, timeFloor, HISTOGRAM_INITIAL_X + HISTOGRAM_INDENT * i, HISTOGRAM_INITIAL_Y - HISTOGRAM_BAR_WIDTH / 4);
+
+    canvasContext.fillStyle = name === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255,' + generateRandomOpacity() + ')';
     canvasContext.fillRect(HISTOGRAM_INITIAL_X + HISTOGRAM_INDENT * i, HISTOGRAM_INITIAL_Y + currentY, HISTOGRAM_BAR_WIDTH, timeFloor * oneStep);
-    canvasContext.fillStyle = '#000';
-    canvasContext.fillText(name, HISTOGRAM_INITIAL_X + HISTOGRAM_INDENT * i, HISTOGRAM_INITIAL_Y + HISTOGRAM_WIDTH + HISTOGRAM_BAR_WIDTH / 3);
+    canvasContext.fillStyle = 'rgb(0, 0, 0)';
+
+    drawText(canvasContext, name, HISTOGRAM_INITIAL_X + HISTOGRAM_INDENT * i, HISTOGRAM_INITIAL_Y + HISTOGRAM_WIDTH + HISTOGRAM_BAR_WIDTH / 3);
   };
 
   var drawRect = function (canvasContext, startX, startY, width, height, color) {
@@ -45,11 +42,15 @@ window.renderStatistics = function (ctx, names, times) {
   };
 
   var drawText = function (canvasContext, str, startX, startY) {
-    canvasContext.fillStyle = '#000';
+    canvasContext.fillStyle = 'rgb(0, 0, 0)';
     canvasContext.font = '14px PT Mono';
     canvasContext.fillText(str, startX, startY);
   };
 
+  var generateRandomOpacity = function () {
+    var opacity = Math.ceil(Math.random() * 10) / 10;
+    return opacity;
+  };
 
   var lastPlayerData = returnWorstTime(times);
   var lastPlayerTime = lastPlayerData[0];
@@ -57,7 +58,7 @@ window.renderStatistics = function (ctx, names, times) {
   var step = HISTOGRAM_WIDTH / (lastPlayerTime - 0);
 
   drawRect(ctx, 110, 20, 420, 270, 'rgba(0, 0, 0, 0.7)');
-  drawRect(ctx, 100, 10, 420, 270, 'white');
+  drawRect(ctx, 100, 10, 420, 270, 'rgba(255, 255, 255, 1)');
   drawText(ctx, 'Ура вы победили!\nСписок результатов:', 120, 40);
   drawText(ctx, 'Худшее время: ' + lastPlayerTime + 'мс у игрока ' + lastPlayerName, 120, 60);
 
