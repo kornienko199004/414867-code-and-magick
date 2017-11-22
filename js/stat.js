@@ -44,12 +44,12 @@ window.renderStatistics = function (ctx, names, times) {
     canvasContext.fillRect(startX, startY, width, height);
   };
 
-  var drawResult = function (canvasContext) {
+  var drawText = function (canvasContext, str, startX, startY) {
     canvasContext.fillStyle = '#000';
     canvasContext.font = '14px PT Mono';
-    canvasContext.fillText('Ура вы победили!\nСписок результатов:', 120, 40);
-    canvasContext.fillText('Худшее время: ' + lastPlayerTime + 'мс у игрока ' + lastPlayerName, 120, 60);
+    canvasContext.fillText(str, startX, startY);
   };
+
 
   var lastPlayerData = returnWorstTime(times);
   var lastPlayerTime = lastPlayerData[0];
@@ -58,8 +58,8 @@ window.renderStatistics = function (ctx, names, times) {
 
   drawCloud(ctx, 110, 20, 420, 270, 'rgba(0, 0, 0, 0.7)');
   drawCloud(ctx, 100, 10, 420, 270, 'white');
-
-  drawResult(ctx);
+  drawText(ctx, 'Ура вы победили!\nСписок результатов:', 120, 40);
+  drawText(ctx, 'Худшее время: ' + lastPlayerTime + 'мс у игрока ' + lastPlayerName, 120, 60);
 
   for (var i = 0; i < times.length; i++) {
     drawHistogram(ctx, i, times[i], step, names[i]);
