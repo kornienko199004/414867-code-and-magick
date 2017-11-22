@@ -36,7 +36,7 @@ window.renderStatistics = function (ctx, names, times) {
   };
 
   var drawCloud = function (canvasObject, startX, startY, width, height, color) {
-    canvasObject.fillStyle = '' + color + '';
+    canvasObject.fillStyle = color;
     canvasObject.fillRect(startX, startY, width, height);
   };
 
