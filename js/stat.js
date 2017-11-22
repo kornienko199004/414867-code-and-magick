@@ -17,22 +17,22 @@ window.renderStatistics = function (ctx, names, times) {
     return lastPlayerData;
   };
 
-  var drawHistograma = function (canvasObject, i, time, initialX, initialY, initialIndent, width, barWidth, oneStep, name) {
+  var drawHistograma = function (canvasObject, i, time, oneStep, name) {
     var currentY;
     var opacity;
     var timeFloor;
     timeFloor = Math.floor(time);
-    currentY = width - time * oneStep;
-    canvasObject.fillText(timeFloor, initialX + initialIndent * i, initialY - barWidth / 4);
+    currentY = HISTOGRAMA_WIDTH - time * oneStep;
+    canvasObject.fillText(timeFloor, HISTOGRAMA_INITIAL_X + HISTOGRAMA_INDENT * i, HISTOGRAMA_INITIAL_Y - HISTOGRAMA_BAR_WIDTH / 4);
     if (name === 'Вы') {
       canvasObject.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
       opacity = Math.ceil(Math.random() * 10) / 10;
       canvasObject.fillStyle = 'rgba(0, 0, 255,' + opacity + ')';
     }
-    canvasObject.fillRect(initialX + initialIndent * i, initialY + currentY, barWidth, timeFloor * oneStep);
+    canvasObject.fillRect(HISTOGRAMA_INITIAL_X + HISTOGRAMA_INDENT * i, HISTOGRAMA_INITIAL_Y + currentY, HISTOGRAMA_BAR_WIDTH, timeFloor * oneStep);
     canvasObject.fillStyle = '#000';
-    canvasObject.fillText(name, initialX + initialIndent * i, initialY + width + barWidth / 3);
+    canvasObject.fillText(name, HISTOGRAMA_INITIAL_X + HISTOGRAMA_INDENT * i, HISTOGRAMA_INITIAL_Y + HISTOGRAMA_WIDTH + HISTOGRAMA_BAR_WIDTH / 3);
   };
 
   var drawCloud = function (canvasObject, startX, startY, width, height, color) {
@@ -62,7 +62,7 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Худшее время: ' + lastPlayerTime + 'мс у игрока ' + lastPlayerName, 120, 60);
 
   for (var i = 0; i < times.length; i++) {
-    drawHistograma(ctx, i, times[i], HISTOGRAMA_INITIAL_X, HISTOGRAMA_INITIAL_Y, HISTOGRAMA_INDENT, HISTOGRAMA_WIDTH, HISTOGRAMA_BAR_WIDTH, step, names[i]);
+    drawHistograma(ctx, i, times[i], step, names[i]);
   }
 
   ctx.closePath();
