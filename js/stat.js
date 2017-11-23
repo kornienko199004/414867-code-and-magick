@@ -41,7 +41,7 @@ window.renderStatistics = function (ctx, names, times) {
 
   var drawText = function (canvasContext, str, startX, startY) {
     canvasContext.fillStyle = 'rgb(0, 0, 0)';
-    canvasContext.font = '14px PT Mono';
+    canvasContext.font = '16px PT Mono';
     canvasContext.fillText(str, startX, startY);
   };
 
