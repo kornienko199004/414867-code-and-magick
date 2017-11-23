@@ -25,18 +25,13 @@ window.renderStatistics = function (ctx, names, times) {
 
   var drawHistogram = function (canvasContext, i, time, oneStep, name) {
     var currentY = HISTOGRAM_HEIGHT - time * oneStep;
+    var currentX = HISTOGRAM_INITIAL_X + (HISTOGRAM_INDENT + HISTOGRAM_BAR_WIDTH) * i;
     var timeFloor = Math.floor(time);
+    var color = name === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255,' + generateRandomOpacity() + ')';
 
-    drawText(canvasContext, timeFloor, HISTOGRAM_INITIAL_X + (HISTOGRAM_INDENT + HISTOGRAM_BAR_WIDTH) * i, HISTOGRAM_INITIAL_Y - HISTOGRAM_BAR_WIDTH / 4);
-    drawRect(
-        canvasContext,
-        HISTOGRAM_INITIAL_X + (HISTOGRAM_INDENT + HISTOGRAM_BAR_WIDTH) * i,
-        HISTOGRAM_INITIAL_Y + currentY,
-        HISTOGRAM_BAR_WIDTH,
-        timeFloor * oneStep,
-        (name === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255,' + generateRandomOpacity() + ')')
-    );
-    drawText(canvasContext, name, HISTOGRAM_INITIAL_X + (HISTOGRAM_INDENT + HISTOGRAM_BAR_WIDTH) * i, HISTOGRAM_INITIAL_Y + HISTOGRAM_HEIGHT + HISTOGRAM_BAR_WIDTH / 3);
+    drawText(canvasContext, timeFloor, currentX, HISTOGRAM_INITIAL_Y - HISTOGRAM_BAR_WIDTH / 4);
+    drawRect(canvasContext, currentX, HISTOGRAM_INITIAL_Y + currentY, HISTOGRAM_BAR_WIDTH, timeFloor * oneStep, color);
+    drawText(canvasContext, name, currentX, HISTOGRAM_INITIAL_Y + HISTOGRAM_HEIGHT + HISTOGRAM_BAR_WIDTH / 3);
   };
 
   var drawRect = function (canvasContext, startX, startY, width, height, color) {
