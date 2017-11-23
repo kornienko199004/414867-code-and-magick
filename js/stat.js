@@ -28,11 +28,7 @@ window.renderStatistics = function (ctx, names, times) {
     var timeFloor = Math.floor(time);
 
     drawText(canvasContext, timeFloor, HISTOGRAM_INITIAL_X + HISTOGRAM_INDENT * i, HISTOGRAM_INITIAL_Y - HISTOGRAM_BAR_WIDTH / 4);
-
-    canvasContext.fillStyle = name === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255,' + generateRandomOpacity() + ')';
-    canvasContext.fillRect(HISTOGRAM_INITIAL_X + HISTOGRAM_INDENT * i, HISTOGRAM_INITIAL_Y + currentY, HISTOGRAM_BAR_WIDTH, timeFloor * oneStep);
-    canvasContext.fillStyle = 'rgb(0, 0, 0)';
-
+    drawRect(canvasContext, HISTOGRAM_INITIAL_X + HISTOGRAM_INDENT * i, HISTOGRAM_INITIAL_Y + currentY, HISTOGRAM_BAR_WIDTH, timeFloor * oneStep, (name === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255,' + generateRandomOpacity() + ')'));
     drawText(canvasContext, name, HISTOGRAM_INITIAL_X + HISTOGRAM_INDENT * i, HISTOGRAM_INITIAL_Y + HISTOGRAM_WIDTH + HISTOGRAM_BAR_WIDTH / 3);
   };
 
