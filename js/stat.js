@@ -4,7 +4,7 @@ window.renderStatistics = function (ctx, names, times) {
   var HISTOGRAM_HEIGHT = 150;
   var HISTOGRAM_BAR_WIDTH = 40;
   var HISTOGRAM_INDENT = 50;
-  var HISTOGRAM_INITIAL_X = 120;
+  var HISTOGRAM_INITIAL_X = 140;
   var HISTOGRAM_INITIAL_Y = 95;
 
   var returnWorstTime = function (timesArray) {
@@ -59,8 +59,8 @@ window.renderStatistics = function (ctx, names, times) {
 
   drawRect(ctx, 110, 20, 420, 270, 'rgba(0, 0, 0, 0.7)');
   drawRect(ctx, 100, 10, 420, 270, 'rgba(255, 255, 255, 1)');
-  drawText(ctx, 'Ура вы победили!\nСписок результатов:', 120, 40);
-  drawText(ctx, 'Худшее время: ' + lastPlayerTime + 'мс у игрока ' + lastPlayerName, 120, 60);
+  drawText(ctx, 'Ура вы победили!\nСписок результатов:', HISTOGRAM_INITIAL_X, 40);
+  drawText(ctx, 'Худшее время: ' + lastPlayerTime + 'мс у игрока ' + lastPlayerName, HISTOGRAM_INITIAL_X, 60);
 
   for (var i = 0; i < times.length; i++) {
     drawHistogram(ctx, i, names[i], times[i], lastPlayerTime);
