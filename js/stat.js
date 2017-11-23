@@ -25,14 +25,18 @@ window.renderStatistics = function (ctx, names, times) {
 
   var drawHistogram = function (canvasContext, i, name, time, maxTime) {
     var step = HISTOGRAM_HEIGHT / (maxTime - 0);
-    var currentY = HISTOGRAM_HEIGHT - time * step;
-    var currentX = HISTOGRAM_INITIAL_X + (HISTOGRAM_INDENT + HISTOGRAM_BAR_WIDTH) * i;
+    var startY = HISTOGRAM_HEIGHT - time * step;
+    var startX = HISTOGRAM_INITIAL_X + (HISTOGRAM_INDENT + HISTOGRAM_BAR_WIDTH) * i;
     var timeFloor = Math.floor(time);
-    var color = name === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255,' + generateRandomOpacity() + ')';
+    var histogramColor = name === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255,' + generateRandomOpacity() + ')';
+    var histogramHeight = timeFloor * step;
+    var timeStartY = HISTOGRAM_INITIAL_Y - HISTOGRAM_BAR_WIDTH / 4;
+    var histogramStartY = HISTOGRAM_INITIAL_Y + startY;
+    var nameStartY = HISTOGRAM_INITIAL_Y + HISTOGRAM_HEIGHT + HISTOGRAM_BAR_WIDTH / 3;
 
-    drawText(canvasContext, timeFloor, currentX, HISTOGRAM_INITIAL_Y - HISTOGRAM_BAR_WIDTH / 4);
-    drawRect(canvasContext, currentX, HISTOGRAM_INITIAL_Y + currentY, HISTOGRAM_BAR_WIDTH, timeFloor * step, color);
-    drawText(canvasContext, name, currentX, HISTOGRAM_INITIAL_Y + HISTOGRAM_HEIGHT + HISTOGRAM_BAR_WIDTH / 3);
+    drawText(canvasContext, timeFloor, startX, timeStartY);
+    drawRect(canvasContext, startX, histogramStartY, HISTOGRAM_BAR_WIDTH, histogramHeight, histogramColor);
+    drawText(canvasContext, name, startX, nameStartY);
   };
 
   var drawRect = function (canvasContext, startX, startY, width, height, color) {
