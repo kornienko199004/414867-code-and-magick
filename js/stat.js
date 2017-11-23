@@ -25,13 +25,12 @@ window.renderStatistics = function (ctx, names, times) {
 
   var drawHistogram = function (canvasContext, i, name, time, maxTime) {
     var step = HISTOGRAM_HEIGHT / (maxTime - 0);
-    var startY = HISTOGRAM_HEIGHT - time * step;
     var startX = HISTOGRAM_INITIAL_X + (HISTOGRAM_INDENT + HISTOGRAM_BAR_WIDTH) * i;
     var timeFloor = Math.floor(time);
     var histogramColor = name === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255,' + generateRandomOpacity() + ')';
     var histogramHeight = timeFloor * step;
     var timeStartY = HISTOGRAM_INITIAL_Y - HISTOGRAM_BAR_WIDTH / 4;
-    var histogramStartY = HISTOGRAM_INITIAL_Y + startY;
+    var histogramStartY = HISTOGRAM_INITIAL_Y + HISTOGRAM_HEIGHT - time * step;
     var nameStartY = HISTOGRAM_INITIAL_Y + HISTOGRAM_HEIGHT + HISTOGRAM_BAR_WIDTH / 3;
 
     drawText(canvasContext, timeFloor, startX, timeStartY);
