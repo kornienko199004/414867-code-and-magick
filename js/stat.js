@@ -23,14 +23,15 @@ window.renderStatistics = function (ctx, names, times) {
     return lastPlayerData;
   };
 
-  var drawHistogram = function (canvasContext, i, time, oneStep, name) {
-    var currentY = HISTOGRAM_HEIGHT - time * oneStep;
+  var drawHistogram = function (canvasContext, i, name, time, maxTime) {
+    var step = HISTOGRAM_HEIGHT / (maxTime - 0);
+    var currentY = HISTOGRAM_HEIGHT - time * step;
     var currentX = HISTOGRAM_INITIAL_X + (HISTOGRAM_INDENT + HISTOGRAM_BAR_WIDTH) * i;
     var timeFloor = Math.floor(time);
     var color = name === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255,' + generateRandomOpacity() + ')';
 
     drawText(canvasContext, timeFloor, currentX, HISTOGRAM_INITIAL_Y - HISTOGRAM_BAR_WIDTH / 4);
-    drawRect(canvasContext, currentX, HISTOGRAM_INITIAL_Y + currentY, HISTOGRAM_BAR_WIDTH, timeFloor * oneStep, color);
+    drawRect(canvasContext, currentX, HISTOGRAM_INITIAL_Y + currentY, HISTOGRAM_BAR_WIDTH, timeFloor * step, color);
     drawText(canvasContext, name, currentX, HISTOGRAM_INITIAL_Y + HISTOGRAM_HEIGHT + HISTOGRAM_BAR_WIDTH / 3);
   };
 
@@ -52,7 +53,6 @@ window.renderStatistics = function (ctx, names, times) {
   var lastPlayerData = returnWorstTime(times);
   var lastPlayerTime = lastPlayerData[0];
   var lastPlayerName = names[lastPlayerData[1]];
-  var step = HISTOGRAM_HEIGHT / (lastPlayerTime - 0);
 
   drawRect(ctx, 110, 20, 420, 270, 'rgba(0, 0, 0, 0.7)');
   drawRect(ctx, 100, 10, 420, 270, 'rgba(255, 255, 255, 1)');
@@ -60,6 +60,6 @@ window.renderStatistics = function (ctx, names, times) {
   drawText(ctx, 'Худшее время: ' + lastPlayerTime + 'мс у игрока ' + lastPlayerName, 120, 60);
 
   for (var i = 0; i < times.length; i++) {
-    drawHistogram(ctx, i, times[i], step, names[i]);
+    drawHistogram(ctx, i, names[i], times[i], lastPlayerTime);
   }
 };
